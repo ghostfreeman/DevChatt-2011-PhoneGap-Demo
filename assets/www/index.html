@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>PhoneGap</title>
+		<link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.0a4.1.min.css" />
+		<script type="text/javascript" charset="utf-8" src="js/phonegap.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/jquery-1.6.1.min.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.0a4.1.min.js"></script>
+	</head>
+	<body>
+		<div data-role="page" data-theme="b" data-url="jqm-home" id="martadroid-home">
+			<header data-role="header">
+				<h1>Demo</h1>
+			</header>
+			
+			<article data-role="content">
+				<a href="javascript:;" data-role="button" id="app-camera">Camera</a>
+				<a href="javascript:;" data-role="button" id="app-motion">Accelerometer</a>
+				<a href="javascript:;" data-role="button" id="app-location">Location</a>
+			</article>
+			
+			<footer data-role="footer" data-theme="d">
+				<p>This footer intended to be empty</p>
+			</footer>
+		</div>
+		
+		
+		<script type="text/javascript" charset="utf-8">
+        	document.addEventListener("deviceready", function() {}, true);
+  		</script>
+		
+		<script type="text/javascript">
+			$("#app-camera").tap( function() {
+				
+				//Grab image
+				//This returns a base64 string
+				//We must have onSuccess and onFail objects verbose or this object won't throw
+				navigator.camera.getPicture(EpicWin, MassiveFail, { quality: 50 });
+			});
+			
+			/* $("#app-camera").click( function() {
+								
+				//Grab image
+				//This returns a base64 string
+				//We must have onSuccess and onFail objects verbose or this object won't throw
+				navigator.camera.getPicture(EpicWin, MassiveFail, { quality: 50 });
+			}); */			
+			
+			$("#app-location").tap( function() {
+				
+				//Activate & Return Location
+				navigator.geolocation.getCurrentPosition(locSuccess, locError);	
+			});			
+			
+			/* $("#app-location").click( function() {
+				
+				//Activate & Return Location
+				navigator.geolocation.getCurrentPosition(locSuccess, locError);				
+			}); */			
+			
+			$("#app-motion").tap( function() {
+			
+	
+				//Work the shaft
+				navigator.accelerometer.getCurrentAcceleration(MotionSuccess, MotionFail);
+				
+			});
+			
+			/* $("#app-motion").click( function() {
+			
+	
+				//Work the shaft
+				navigator.accelerometer.getCurrentAcceleration(MotionSuccess, MotionFail);
+				
+			}); */
+			
+			$(document).ready( function() {
+				navigator.geolocation.getCurrentPosition(locSuccess, locError);
+			});
+		</script>
+		
+		<script type="text/javascript">
+			//Camera objects (from PhoneGap docs)
+			function EpicWin(imageData) {
+			    //var image = document.getElementById('myImage');
+			    //image.src = "data:image/jpeg;base64," + imageData;
+			    alert('Success');
+			}
+			
+			function MassiveFail(message) {
+				alert('Failed because: ' + message);
+			}
+			
+			function locSuccess(coords) {
+				alert("Location Detected!" + "\n" + 
+					  "Lat: " + position.coords.latitude + "\n" +
+					  "Long: " + position.coords.longitude + "\n" +
+					  "Accuracy: " + position.coords.altitudeAccuracy + "\n" +
+					  "Recovered: " + new Date(position.timestamp) + "\n"
+				);
+			}
+			
+			function locError() {
+				alert("Failed to access geolocation. You broke it, didn't you?");
+			}
+			
+			function MotionSuccess(acceleration) {
+    			alert('Motion X-axis: ' + acceleration.x + '\n' +
+          			  'Motion Y-axis: ' + acceleration.y + '\n' +
+          		      'Motion Z-axis: ' + acceleration.z + '\n' +
+                      'Timestamp: '      + acceleration.timestamp + '\n');
+			};
+
+			function MotionFail() {
+			    alert('Fail');
+			};
+			
+		</script>
+	</body>
+</html>
